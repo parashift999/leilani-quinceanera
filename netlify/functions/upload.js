@@ -1,5 +1,5 @@
 const { google } = require('googleapis');
-const busboy = require('busboy');
+const Busboy = require('busboy');
 
 exports.handler = async (event, context) => {
   // Enable CORS
@@ -28,7 +28,6 @@ exports.handler = async (event, context) => {
   }
 
   console.log('Upload function called');
-  console.log('Content-Type:', event.headers['content-type']);
 
   try {
     // Parse the multipart form data
@@ -80,9 +79,12 @@ exports.handler = async (event, context) => {
         parents: [FOLDER_ID]
       };
 
+      // Convert base64 back to buffer for upload
+      const fileBuffer = Buffer.from(file.content, 'base64');
+      
       const media = {
         mimeType: file.mimeType,
-        body: Buffer.from(file.content, 'base64')
+        body: require('stream').Readable.from(fileBuffer)
       };
 
       try {
@@ -101,18 +103,6 @@ exports.handler = async (event, context) => {
 
     const uploadedFiles = await Promise.all(uploadPromises);
     console.log('All files uploaded successfully');
-
-    // Log the submission details
-    const submissionData = {
-      guestName: fields.guestName,
-      guestEmail: fields.guestEmail,
-      message: fields.message,
-      timestamp: new Date().toISOString(),
-      filesUploaded: uploadedFiles.length,
-      fileLinks: uploadedFiles.map(f => f.webViewLink)
-    };
-
-    console.log('Submission complete:', JSON.stringify(submissionData, null, 2));
 
     return {
       statusCode: 200,
@@ -137,7 +127,7 @@ exports.handler = async (event, context) => {
   }
 };
 
-// Helper function to parse multipart form data
+// Helper function to parse multipart form data with busboy 1.x
 function parseMultipartForm(event) {
   return new Promise((resolve, reject) => {
     const fields = {};
@@ -150,55 +140,61 @@ function parseMultipartForm(event) {
       return;
     }
 
-    const bb = busboy({
+    // Decode base64 body if needed
+    const bodyBuffer = event.isBase64Encoded 
+      ? Buffer.from(event.body, 'base64')
+      : Buffer.from(event.body);
+
+    const busboy = Busboy({ 
       headers: {
         'content-type': contentType
       }
     });
 
-    bb.on('file', (fieldname, file, info) => {
-      const { filename, mimeType } = info;
+    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+      console.log(`Receiving file: ${filename.filename || filename} (${mimetype})`);
+      
       const chunks = [];
-
-      console.log(`Receiving file: ${filename} (${mimeType})`);
-
+      
       file.on('data', (data) => {
         chunks.push(data);
       });
 
       file.on('end', () => {
         const buffer = Buffer.concat(chunks);
-        console.log(`File received: ${filename}, size: ${buffer.length} bytes`);
+        console.log(`File received: ${filename.filename || filename}, size: ${buffer.length} bytes`);
+        
         files.push({
           fieldname,
-          filename,
-          mimeType,
+          filename: filename.filename || filename,
+          mimeType: mimetype,
           content: buffer.toString('base64')
         });
       });
+
+      file.on('error', (error) => {
+        console.error('File stream error:', error);
+        reject(error);
+      });
     });
 
-    bb.on('field', (fieldname, value) => {
+    busboy.on('field', (fieldname, value) => {
       console.log(`Field: ${fieldname} = ${value}`);
       fields[fieldname] = value;
     });
 
-    bb.on('finish', () => {
+    busboy.on('finish', () => {
       console.log('Form parsing complete');
       resolve({ fields, files });
     });
 
-    bb.on('error', (error) => {
+    busboy.on('error', (error) => {
       console.error('Busboy error:', error);
       reject(error);
     });
 
-    // Decode base64 body if needed
-    const body = event.isBase64Encoded 
-      ? Buffer.from(event.body, 'base64')
-      : event.body;
-
-    bb.write(body);
-    bb.end();
+    // Write the buffer to busboy
+    busboy.write(bodyBuffer);
+    busboy.end();
   });
 }

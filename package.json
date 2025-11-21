@@ -1,0 +1,10 @@
+{
+  "name": "leilani-quinceanera",
+  "version": "1.0.0",
+  "description": "Quinceañera photo upload website for Leilani",
+  "main": "index.html",
+  "dependencies": {
+    "googleapis": "^128.0.0",
+    "busboy": "^1.6.0"
+  }
+}

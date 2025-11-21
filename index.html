@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leilani's Quinceañera - Thank You!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #ffd700 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 192, 203, 0.4);
+            margin-bottom: 40px;
+            border: 3px solid #ffd700;
+        }
+
+        .crown {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            color: #d81b60;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #ad1457;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .thank-you-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 50px 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 40px rgba(255, 192, 203, 0.3);
+            border: 2px solid #ffd700;
+        }
+
+        .thank-you-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            color: #d81b60;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .thank-you-section p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #555;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+
+        .upload-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 50px 30px;
+            box-shadow: 0 15px 40px rgba(255, 192, 203, 0.3);
+            border: 2px solid #ffd700;
+        }
+
+        .upload-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            color: #d81b60;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .upload-section p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .upload-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #d81b60;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #f8bbd0;
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 20px;
+            border: 3px dashed #f8bbd0;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #fff;
+            transition: all 0.3s;
+        }
+
+        input[type="file"]:hover {
+            border-color: #ffd700;
+            background: #fffef7;
+        }
+
+        .upload-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #d81b60 0%, #ad1457 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(216, 27, 96, 0.3);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(216, 27, 96, 0.4);
+        }
+
+        .upload-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .preview-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #ffd700;
+        }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .success {
+            background: #c8e6c9;
+            color: #2e7d32;
+            border: 2px solid #4caf50;
+        }
+
+        .error {
+            background: #ffcdd2;
+            color: #c62828;
+            border: 2px solid #f44336;
+        }
+
+        .hearts {
+            text-align: center;
+            font-size: 30px;
+            margin: 30px 0;
+            opacity: 0.6;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f8bbd0;
+            border-top: 4px solid #d81b60;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .subtitle {
+                font-size: 1.2em;
+            }
+
+            .thank-you-section h2,
+            .upload-section h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="crown">👑</div>
+            <h1>Leilani C</h1>
+            <div class="subtitle">Mis Quince Años</div>
+        </div>
+
+        <div class="thank-you-section">
+            <h2>¡Gracias! Thank You!</h2>
+            <p>
+                Your presence at my quinceañera made this day absolutely magical and unforgettable. 
+                Thank you for celebrating this special milestone with me and my family. 
+                Your love, support, and warm wishes mean the world to me.
+            </p>
+            <div class="hearts">💕 💖 💕</div>
+            <p>
+                This celebration marks not just my 15th birthday, but the beginning of a new chapter. 
+                Having you there to share in this beautiful tradition filled my heart with joy.
+            </p>
+        </div>
+
+        <div class="upload-section">
+            <h2>📸 Share Your Photos</h2>
+            <p>Help us capture all the beautiful moments! Upload your photos from the party to our memory gallery.</p>
+            
+            <form id="uploadForm" class="upload-form">
+                <div class="form-group">
+                    <label for="guestName">Your Name *</label>
+                    <input type="text" id="guestName" name="guestName" required placeholder="Enter your name">
+                </div>
+
+                <div class="form-group">
+                    <label for="guestEmail">Email (optional)</label>
+                    <input type="email" id="guestEmail" name="guestEmail" placeholder="your.email@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Memory/Message (optional)</label>
+                    <textarea id="message" name="message" placeholder="Share a special moment from the party..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="photos">Select Photos *</label>
+                    <input type="file" id="photos" name="photos" accept="image/*" multiple required>
+                </div>
+
+                <div id="previewContainer" class="preview-container"></div>
+
+                <button type="submit" class="upload-btn" id="submitBtn">
+                    ✨ Upload Photos ✨
+                </button>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 10px; color: #d81b60;">Uploading your photos...</p>
+                </div>
+
+                <div id="message-display"></div>
+            </form>
+        </div>
+
+        <div class="hearts">💝 ✨ 💝</div>
+    </div>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        const photosInput = document.getElementById('photos');
+        const previewContainer = document.getElementById('previewContainer');
+        const submitBtn = document.getElementById('submitBtn');
+        const messageDisplay = document.getElementById('message-display');
+        const loading = document.getElementById('loading');
+
+        // Preview selected images
+        photosInput.addEventListener('change', function(e) {
+            previewContainer.innerHTML = '';
+            const files = Array.from(e.target.files);
+            
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'preview-image';
+                        previewContainer.appendChild(img);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+
+        // Handle form submission
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const guestName = document.getElementById('guestName').value;
+            const guestEmail = document.getElementById('guestEmail').value;
+            const message = document.getElementById('message').value;
+            const files = photosInput.files;
+
+            if (files.length === 0) {
+                showMessage('Please select at least one photo', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.style.display = 'none';
+            loading.classList.add('show');
+            messageDisplay.innerHTML = '';
+
+            const formData = new FormData();
+            formData.append('guestName', guestName);
+            formData.append('guestEmail', guestEmail);
+            formData.append('message', message);
+            
+            for (let i = 0; i < files.length; i++) {
+                formData.append('photos', files[i]);
+            }
+
+            try {
+                console.log('Uploading to:', '/.netlify/functions/upload');
+                
+                const response = await fetch('/.netlify/functions/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('Response status:', response.status);
+                
+                let result;
+                try {
+                    result = await response.json();
+                } catch (parseError) {
+                    console.error('JSON parse error:', parseError);
+                    const text = await response.text();
+                    console.error('Response text:', text);
+                    throw new Error('Server returned invalid response');
+                }
+
+                if (response.ok) {
+                    showMessage('Thank you! Your photos have been uploaded successfully! 💕', 'success');
+                    form.reset();
+                    previewContainer.innerHTML = '';
+                } else {
+                    console.error('Upload failed:', result);
+                    showMessage(result.error || 'Upload failed. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                showMessage('Upload failed. Please check your connection and try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.style.display = 'block';
+                loading.classList.remove('show');
+            }
+        });
+
+        function showMessage(text, type) {
+            messageDisplay.innerHTML = `<div class="message ${type}">${text}</div>`;
+            setTimeout(() => {
+                if (type === 'success') {
+                    messageDisplay.innerHTML = '';
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

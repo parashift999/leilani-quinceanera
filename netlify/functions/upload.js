@@ -151,23 +151,25 @@ function parseMultipartForm(event) {
       }
     });
 
-    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-      console.log(`Receiving file: ${filename.filename || filename} (${mimetype})`);
-      
+    busboy.on('file', (fieldname, file, info) => {
+      // In Busboy 1.x, the third parameter is an object with filename, encoding, and mimeType
+      const { filename, encoding, mimeType } = info;
+      console.log(`Receiving file: ${filename} (${mimeType})`);
+
       const chunks = [];
-      
+
       file.on('data', (data) => {
         chunks.push(data);
       });
 
       file.on('end', () => {
         const buffer = Buffer.concat(chunks);
-        console.log(`File received: ${filename.filename || filename}, size: ${buffer.length} bytes`);
-        
+        console.log(`File received: ${filename}, size: ${buffer.length} bytes`);
+
         files.push({
           fieldname,
-          filename: filename.filename || filename,
-          mimeType: mimetype,
+          filename: filename,
+          mimeType: mimeType,
           content: buffer.toString('base64')
         });
       });
